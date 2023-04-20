@@ -1,0 +1,4 @@
+pm_input_topic_fir: "/top/velodyne_points"
+pm_input_topic_sec: "/left/velodyne_points"
+pm_input_topic_third: "/right/velodyne_points"
+frame_id: "base_link"

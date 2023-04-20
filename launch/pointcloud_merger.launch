@@ -1,0 +1,9 @@
+<launch>
+  <arg name="config_path" default ="$(find pointcloud_merger)/config/pointcloud_merger.yaml"/>
+ 
+  <node pkg="pointcloud_merger" type="pointcloud_merger_node" name="pointcloud_merger" output="screen">
+    <param name="param_file_path" value="$(arg config_path)"/>
+  	<rosparam command="load" file="$(arg config_path)" />
+  </node>
+
+</launch>

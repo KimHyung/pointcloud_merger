@@ -85,7 +85,7 @@ void PointCloudMerger::PointCloudCallback(  const sensor_msgs::PointCloud2ConstP
   pcl::fromROSMsg(*cloud_msg_third, third_cloud);
   tf::StampedTransform transform_third;
   try {
-    tf_listener.lookupTransform(target_frame_id, cloud_msg_sec->header.frame_id, ros::Time(0), transform_third);
+    tf_listener.lookupTransform(target_frame_id, cloud_msg_third->header.frame_id, ros::Time(0), transform_third);
   } catch (tf::TransformException& ex) {
     ROS_WARN("%s", ex.what());
     return;
@@ -95,13 +95,13 @@ void PointCloudMerger::PointCloudCallback(  const sensor_msgs::PointCloud2ConstP
   merged_cloud = first_cloud_tf;
 
   for(unsigned int i=0; i<second_cloud.points.size(); i++){
-    merged_cloud.points.push_back(second_cloud.points[i]);
+    merged_cloud.points.push_back(second_cloud_tf.points[i]);
   }
   for(unsigned int i=0; i<third_cloud.points.size(); i++){
-    merged_cloud.points.push_back(third_cloud.points[i]);
+    merged_cloud.points.push_back(third_cloud_tf.points[i]);
   }
-  merged_cloud.width += second_cloud.width;
-  merged_cloud.width += third_cloud.width;
+  merged_cloud.width += second_cloud_tf.width;
+  merged_cloud.width += third_cloud_tf.width;
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr merged_cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>(merged_cloud));
   pcl::VoxelGrid<pcl::PointXYZ> voxel_filter;
